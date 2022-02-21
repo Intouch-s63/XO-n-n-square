@@ -58,7 +58,7 @@ class Game extends React.Component {
       
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    
   }
 
   handleClick(i) {
@@ -90,10 +90,7 @@ class Game extends React.Component {
   handleChange(event) {
     this.setState({value: event.target.value});}
 
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
-    event.preventDefault();
-  }
+
 
   
 
@@ -132,13 +129,17 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
 
-        <form onSubmit={this.handleSubmit}>        
-          <label>
-            Name:
-            <input type="text" value={this.state.value} onChange={this.handleChange} />       
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
+        NxN:
+        <select class='input' value={this.state.value} onChange={this.handleChange}>
+        <option name="3"> 3</option>
+        <option name="4"> 4</option>
+        <option name="5"> 5</option>
+        <option name="6"> 6</option>
+        <option name="7"> 7</option>
+        <option name="8"> 8</option>
+        <option name="9"> 9</option>
+        <option name="10"> 10</option>
+        </select>
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
