@@ -53,8 +53,12 @@ class Game extends React.Component {
         }
       ],
       stepNumber: 0,
-      xIsNext: true
+      xIsNext: true,
+      value:''
+      
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleClick(i) {
@@ -83,15 +87,26 @@ class Game extends React.Component {
     });
   }
 
+  handleChange(event) {
+    this.setState({value: event.target.value});}
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
+ 
 
     const moves = history.map((step, move) => {
       const desc = move ?
-        'Go to move #' + move :
-        'Go to game start';
+        'go to move #' + move :
+        'go to game start';
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
@@ -108,6 +123,7 @@ class Game extends React.Component {
 
     return (
       <div className="game">
+      
         <div className="game-board">
           <Board
             squares={current.squares}
@@ -115,6 +131,14 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
+
+        <form onSubmit={this.handleSubmit}>        
+          <label>
+            Name:
+            <input type="text" value={this.state.value} onChange={this.handleChange} />       
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
