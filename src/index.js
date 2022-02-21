@@ -38,7 +38,7 @@ class Board extends React.Component {
     return (
       <div>
         <div>
-          {this.Row(4)}
+          {this.Row(this.props.input)}
         </div>
       </div>
     );
@@ -127,6 +127,7 @@ class Game extends React.Component {
           <Board
             squares={current.squares}
             onClick={i => this.handleClick(i)}
+            input ={this.state.value}
           />
         </div>
         <div className="game-info">
