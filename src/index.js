@@ -20,9 +20,9 @@ class Board extends React.Component {
     );
   }
 
-  Column(size,size2){
+  Column(size,j){
     const col = []
-    for(var i = size2*size ; i < size*(1+size2);i++){
+    for(var i = j*size ; i < size*(1+j);i++){
       col.push(this.renderSquare(i))
     }
     return(col);
@@ -56,7 +56,7 @@ class Game extends React.Component {
       ],
       stepNumber: 0,
       xIsNext: true,
-      value:''
+      value:3
       
     };
     this.handleChange = this.handleChange.bind(this);
@@ -114,9 +114,13 @@ class Game extends React.Component {
     });
 
     let status;
-    if (winner) {
-      status = "Winner: " + winner;
-    } else {
+    if (winner== "X") {
+      status = "winner: " + winner;
+    }  else if (winner == "O"){
+        status = "winner: " + winner;
+    }
+
+     else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
 
@@ -153,22 +157,62 @@ class Game extends React.Component {
 
 ReactDOM.render(<Game />, document.getElementById("root"));
 
-function calculateWinner(squares) {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+function calculateWinner(squares,size){
+  let field = []
+  for (let x = 0 ; x < size ; x++){
+    let row = []
+    for ( let y = 0 ; y < size ; y++){
+      row.push(squares[x*size+y])
     }
+  field.push(row)
   }
+  
+for (let x = 0; x< size ; x++){
+  let horizon = []
+  for (let y = 0; y< size ; y++){
+    horizon.push(field[x][y])
+  }
+  if (horizon.every((Win)=>Win==='X')){
+    return 'X'
+  } else if (horizon.every((Win)=>Win==='O')){
+      return 'O'
+  } 
+}
+
+for (let x = 0; x< size ; x++){
+  let verticle = []
+  for (let y = 0; y< size ; y++){
+    verticle.push(field[y][x])
+  }
+  if (verticle.every((Win)=>Win==='X')){
+    return 'X'
+  } else if (verticle.every((Win)=>Win==='O')){
+      return 'O'
+  }
+}
+
+for (let x = 0; x< size ; x++){
+  let diagonal = []
+  for (let y = 0; y< size ; y++){
+    diagonal.push(field[y][y])
+  }
+  if (diagonal.every((Win)=>Win==='X')){
+    return 'X'
+  } else if (diagonal.every((Win)=>Win==='O')){
+      return 'O'
+  }
+}
+
+for (let x = 0; x< size ; x++){
+  let reversediagonal = []
+  for (let y = 0; y< size ; y++){
+    reversediagonal.push(field[y][size-y-1])
+  }
+  if (reversediagonal.every((Win)=>Win==='X')){
+    return 'X'
+  } else if (reversediagonal.every((Win)=>Win==='O')){
+      return 'O'
+  }
+}
   return null;
 }
